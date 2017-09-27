@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/go_to_xkcd"
+        android:orderInCategory="80"
+        android:title="Go to xkcd.com" />
+    <item
+        android:id="@+id/go_to_xkcd_explain"
+        android:orderInCategory="80"
+        android:title="Go to explainxkcd"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/app_bar_search"
+        android:actionViewClass="android.widget.SearchView"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:orderInCategory="80"
+        android:title="Search"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/back"
+        android:icon="@drawable/ic_navigate_before_black_24dp"
+        android:orderInCategory="80"
+        android:title="Back"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/refresh"
+        android:icon="@drawable/ic_refresh_black_24dp"
+        android:orderInCategory="80"
+        android:title="refresh"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/next"
+        android:icon="@drawable/ic_navigate_next_black_24dp"
+        android:orderInCategory="80"
+        android:title="Next"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/share"
+        android:icon="@drawable/ic_share_black_24dp"
+        android:orderInCategory="80"
+        android:title="Next"
+        app:showAsAction="always" />
+</menu>
