@@ -5,23 +5,43 @@ package com.example.ezihan.xkdcproject.Model;
  */
 
 public class XkcdModel {
-    private int month;
-    private int num;
+
+
+    /**
+     * month : 9
+     * num : 1895
+     * link :
+     * year : 2017
+     * news :
+     * safe_title : Worrying Scientist Interviews
+     * transcript :
+     * alt : They always try to explain that they're called 'solar physicists', but the reporters interrupt with "NEVER MIND THAT, TELL US WHAT'S WRONG WITH THE SUN!"
+     * img : https://imgs.xkcd.com/comics/worrying_scientist_interviews.png
+     * title : Worrying Scientist Interviews
+     * day : 27
+     * {"month": "9", "num": 1895, "link": "", "year": "2017", "news": "", "safe_title": "Worrying Scientist Interviews", "transcript": "",
+     * "alt": "They always try to explain that they're called 'solar physicists', but the reporters interrupt with \"NEVER MIND THAT, TELL US WHAT'S WRONG WITH THE SUN!\"",
+     * "img": "https://imgs.xkcd.com/comics/worrying_scientist_interviews.png",
+     * "title": "Worrying Scientist Interviews", "day": "27"}
+     */
+
+    private String month;
+    private int num; //1895 is written without quotation mark, so it is assigned as integer
     private String link;
-    private int year;
+    private String year;// "2017" is written in quotation mark, so it is a String
     private String news;
     private String safe_title;
     private String transcript;
     private String alt;
     private String img;
     private String title;
-    private int day;
+    private String day;
 
-    public int getMonth() {
+    public String getMonth() {
         return month;
     }
 
-    public void setMonth(int month) {
+    public void setMonth(String month) {
         this.month = month;
     }
 
@@ -41,11 +61,11 @@ public class XkcdModel {
         this.link = link;
     }
 
-    public int getYear() {
+    public String getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(String year) {
         this.year = year;
     }
 
@@ -97,11 +117,11 @@ public class XkcdModel {
         this.title = title;
     }
 
-    public int getDay() {
+    public String getDay() {
         return day;
     }
 
-    public void setDay(int day) {
+    public void setDay(String day) {
         this.day = day;
     }
 }

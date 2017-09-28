@@ -2,6 +2,7 @@ package com.example.ezihan.xkdcproject;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.example.ezihan.xkdcproject.Model.XkcdModel;
 
@@ -19,7 +20,7 @@ import java.net.URL;
  * Created by EziHAn on 27.09.2017.
  */
 
-public class GetImageTask extends AsyncTask<String, String, String> {
+public class GetImageTask extends AsyncTask<String, String , XkcdModel> {
 
     private ImageTaskListener listener;
     private Context applicationContext;
@@ -37,11 +38,12 @@ public class GetImageTask extends AsyncTask<String, String, String> {
     }
 
     @Override
-    protected String doInBackground(String... params) {
+    protected XkcdModel doInBackground(String... params) {
         HttpURLConnection connection = null; //we need to open an HTTP connection we initialise our connection to whole doc
         BufferedReader reader = null; // we made reader object accessable for whole doc
         try {
             URL url = new URL(params[0]); //the URL we need to access is written here, our URL is now in params
+            Log.d("my_text", "doInBackground:url is " + url.toString());// to see if we get to connect to url, and to the url itself
             connection = (HttpURLConnection) url.openConnection(); // here we open the URL connection
             connection.connect();//after this poitn we will be connecting directly to server
             //what we get in response is infinite stream. we have to store this infinite stream and do thing with it
@@ -56,19 +58,21 @@ public class GetImageTask extends AsyncTask<String, String, String> {
             }
 
             String finalJson = buffer.toString(); //this is the final Json that we get, we need to convert it into a readable file
+            Log.d("my_text", "doInBackground: "+finalJson);// to see if we get our JSON to finalJson object
             JSONObject parentObject = new JSONObject(finalJson);
+
             XkcdModel xkcdModel = new XkcdModel(); //we are getting our JSON objects that are in our model
             xkcdModel.setImg(parentObject.getString("img"));
             xkcdModel.setAlt(parentObject.getString("alt"));
-            xkcdModel.setDay(parentObject.getInt("day"));
+            xkcdModel.setDay(parentObject.getString("day"));
             xkcdModel.setLink(parentObject.getString("link"));
-            xkcdModel.setMonth(parentObject.getInt("month"));
+            xkcdModel.setMonth(parentObject.getString("month"));
             xkcdModel.setNews(parentObject.getString("news"));
             xkcdModel.setNum(parentObject.getInt("num"));
             xkcdModel.setSafe_title(parentObject.getString("safe_title"));
             xkcdModel.setTitle(parentObject.getString("title"));
             xkcdModel.setTranscript(parentObject.getString("transcript"));
-            xkcdModel.setYear(parentObject.getInt("year"));
+            xkcdModel.setYear(parentObject.getString("year"));
 
 //            StringBuffer description = new StringBuffer();
 //            StringBuffer cr_Date = new StringBuffer();
@@ -90,7 +94,7 @@ public class GetImageTask extends AsyncTask<String, String, String> {
 //            return cr_Date.toString(); //returns to joke
 //            return description.toString(); //returns to joke
 //            return buffer.toString();  //if we were able to get data it will return to convert buffer to sring, and pass the result to 's' in onPostExecute
-            return finalJson;
+            return xkcdModel;
 
 
         } catch (IOException | JSONException e) {
@@ -111,9 +115,12 @@ public class GetImageTask extends AsyncTask<String, String, String> {
     }
 
     @Override
-    protected void onPostExecute(String result) {
+    protected void onPostExecute(final XkcdModel result) {
         super.onPostExecute(result);
         listener.postTask(result);
-        MainActivity.ImageAdapter adapter = new MainActivity.ImageAdapter(applicationContext.getApplicationContext(), R.layout.screenview, result);
+
+//        MainActivity.ImageAdapter adapter = new MainActivity.ImageAdapter(getApplicationContext(), R.layout.screenview, result);
     }
+
+
 }
