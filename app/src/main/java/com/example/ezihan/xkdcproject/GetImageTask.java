@@ -1,5 +1,6 @@
 package com.example.ezihan.xkdcproject;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.example.ezihan.xkdcproject.Model.XkcdModel;
@@ -21,6 +22,7 @@ import java.net.URL;
 public class GetImageTask extends AsyncTask<String, String, String> {
 
     private ImageTaskListener listener;
+    private Context applicationContext;
 
     public GetImageTask(ImageTaskListener mListener) {
         listener = mListener;
@@ -109,8 +111,9 @@ public class GetImageTask extends AsyncTask<String, String, String> {
     }
 
     @Override
-    protected void onPostExecute(String s) {
-        super.onPostExecute(s);
-        listener.postTask(s);
+    protected void onPostExecute(String result) {
+        super.onPostExecute(result);
+        listener.postTask(result);
+        MainActivity.ImageAdapter adapter = new MainActivity.ImageAdapter(applicationContext.getApplicationContext(), R.layout.screenview, result);
     }
 }
