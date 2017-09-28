@@ -6,16 +6,26 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.ezihan.xkdcproject.Model.XkcdModel;
 import com.example.ezihan.xkdcproject.ShakeDetector;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -27,10 +37,13 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private TextView crDate;
     private TextView xkcdNo;
 
-    @Override
+    @Override /**
+     Override means, when we call a method it starts its own codes that are written in Activity. By putting Override we can write our codes inside this method.
+ */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main); /**this is put insode onCreate method, because when our app goes to background and then launched again,
+         it does not creat an app again. The UI of app is already loaded, it does not need to be created again.*/
 
         swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
         swipeLayout.setOnRefreshListener((SwipeRefreshLayout.OnRefreshListener) this);
@@ -140,6 +153,46 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         }
     }
 
+    public static class ImageAdapter extends ArrayAdapter {// we need a constructor that contains a List, because in the end we have a list of Models.
+
+        private List<XkcdModel> xkcdModelList;
+        private int resource;
+        private LayoutInflater inflater;
+        public ImageAdapter(Context context, int resource) {
+            super(context, resource, objects);
+            xkcdModelList=objects;
+            this.resource=resource; //1st resource is "private int resource", 2nd resource is "ImageAdapter(int resource)"
+            inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        @NonNull
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if (convertView == null){
+                inflater.inflate(resource, null);//It inflates our xkcdview layout into convertView variable and takes a view.
+            }
+            TextView xkcd_title;
+            ImageView xkcd_image;
+            TextView xkcd_alt_text;
+            TextView xkcd_no;
+            TextView xkcd_crdate;
+
+            xkcd_title = (TextView)convertView.findViewById(R.id.xkcd_title);
+            xkcd_image=(ImageView)convertView.findViewById(R.id.image_default);
+            xkcd_alt_text=(TextView)convertView.findViewById(R.id.xkcd_alt_text);
+            xkcd_crdate=(TextView)convertView.findViewById(R.id.xkcd_crdate);
+            xkcd_no=(TextView)convertView.findViewById(R.id.xkcd_no);
+
+            xkcd_title.setText(xkcdModelList.get(position).getTitle());
+            xkcd_alt_text.setText(xkcdModelList.get(position).getAlt());
+            xkcd_crdate.setText("Year:"+xkcdModelList.get(position).getYear());
+            xkcd_no.setText("No:"+xkcdModelList.get(position).getNum());
+
+
+            return convertView;
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -178,3 +231,5 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         return true;
     }
 }
+
+
